@@ -1,0 +1,12 @@
+VERSION:3 SOURCE_TIMESTAMP:48ACB2D4
+NODE:I LEVEL:0 LINE:1 "myi2c.h"
+NODE:F LEVEL:0 LINE:3 "I2C_Init(void)"
+NODE:F LEVEL:0 LINE:12 "I2C_Detect(byte addr)"
+NODE:F LEVEL:0 LINE:23 "I2C_FindDevice(byte start)"
+NODE:F LEVEL:0 LINE:35 "I2C_Start(byte slaveAddr)"
+NODE:F LEVEL:0 LINE:39 "I2C_Write(byte data)"
+NODE:F LEVEL:0 LINE:47 "I2C_ReadACK(void)"
+NODE:F LEVEL:0 LINE:55 "I2C_ReadNACK(void)"
+NODE:F LEVEL:0 LINE:63 "I2C_WriteByte(byte busAddr,byte data)"
+NODE:F LEVEL:0 LINE:69 "I2C_WriteRegister(byte busAddr,byte deviceRegister,byte data)"
+NODE:F LEVEL:0 LINE:76 "I2C_ReadRegister(byte busAddr,byte deviceRegister)"

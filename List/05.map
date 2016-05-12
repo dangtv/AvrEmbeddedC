@@ -1,0 +1,38 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+__ds18b20_scratch_pad                                                             0x0160       9
+rx_buffer                                                                         0x0169       8
+ma                                                                                0x0171      10
+temp                                                                              0x017B       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+rx_wr_index                                                                       R5           1
+rx_rd_index                                                                       R4           1
+rx_counter                                                                        R7           1
+rx_buffer_overflow                                                                R2.0      1bit
+kytu                                                                              R6           1
+b                                                                                 R9           1
+my_variable                                                                       R8           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+main                                                                              0x00089    107
+hienthinhietdo                                                                    0x000F4     16
+hienthithoigian                                                                   0x00104     30
+quet                                                                              0x00122     23
+day                                                                               0x00139      3
+rtc_init                                                                          0x0013C     25
+rtc_get_time                                                                      0x00155     28
+ds18b20_select                                                                    0x00171     30
+ds18b20_read_spd                                                                  0x0018F     36
+ds18b20_temperature                                                               0x001B3     55
+ds18b20_init                                                                      0x001EA     55
+bcd2bin                                                                           0x00221     13

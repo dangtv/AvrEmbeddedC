@@ -1,0 +1,55 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+registry_ds1307                                                                   0x0160       7
+rx_buffer                                                                         0x0167       8
+ma                                                                                0x016F      10
+temp                                                                              0x0179       4
+_seed (stdlib.lib)                                                                0x017D       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+rx_wr_index                                                                       R5           1
+rx_rd_index                                                                       R4           1
+rx_counter                                                                        R7           1
+rx_buffer_overflow                                                                R2.0      1bit
+kytu                                                                              R6           1
+b                                                                                 R9           1
+ttemp0                                                                            R8           1
+ttemp1                                                                            R11          1
+my_variable                                                                       R10          1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+ds18b20_reset                                                                     0x000B1     20
+ds18b20_writebit                                                                  0x000C5     12
+ds18b20_readbit                                                                   0x000D1     14
+ds18b20_writebyte                                                                 0x000DF     18
+ds18b20_readbyte                                                                  0x000F1     19
+ds18b20_gettemp                                                                   0x00104     66
+BCD2Decver2                                                                       0x00146     18
+myGetTimeFromDS1307ver2                                                           0x00158     81
+I2C_Init                                                                          0x001A9      5
+I2C_Detect                                                                        0x001AE     16
+I2C_Start                                                                         0x001BE      5
+I2C_Write                                                                         0x001C3     11
+I2C_ReadRegister                                                                  0x001D5     18
+usart_rx_isr                                                                      0x001E7     35
+mygetchar                                                                         0x0020A     19
+main                                                                              0x0021D    128
+hienthinhietdo                                                                    0x0029D     16
+hienthithoigian                                                                   0x002AD     32
+quet                                                                              0x002CD     23
+day                                                                               0x002E4      3
+putchar                                                                           0x002E7      7
+put_usart_G101                                                                    0x002EE     13
+_print_G101                                                                       0x002FB    284
+printf                                                                            0x00417     34
+strlen                                                                            0x00439     12
+strlenf                                                                           0x00445     13

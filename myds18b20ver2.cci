@@ -1,0 +1,10 @@
+VERSION:3 SOURCE_TIMESTAMP:48ACA965
+NODE:I LEVEL:0 LINE:2 "C:\Program Files (x86)\cvavreval\inc\io.h"
+NODE:I LEVEL:0 LINE:3 "C:\Program Files (x86)\cvavreval\inc\delay.h"
+NODE:I LEVEL:0 LINE:5 "myds18b20ver2.h"
+NODE:F LEVEL:0 LINE:10 "ds18b20_reset(void)"
+NODE:F LEVEL:0 LINE:33 "ds18b20_writebit(uint8_t _bit)"
+NODE:F LEVEL:0 LINE:51 "ds18b20_readbit(void)"
+NODE:F LEVEL:0 LINE:75 "ds18b20_writebyte(uint8_t _byte)"
+NODE:F LEVEL:0 LINE:86 "ds18b20_readbyte(void)"
+NODE:F LEVEL:0 LINE:98 "ds18b20_gettemp(void)"
