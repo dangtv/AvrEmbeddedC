@@ -274,7 +274,7 @@ void main(void) {
 
         }
         if (kytu == 'h') {
-            printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) h, (unsigned char) m, (unsigned char) s);
+            printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned char) time.Minute, (unsigned char) time.Second);
 
         }
 
@@ -345,10 +345,10 @@ void day() {
     PORTA.2 = 1;
 }
 
-void uart_char_tx(unsigned char chr) {
-    while (UDRE == 1) {
-    }; //cho den khi bit UDRE=1 
-    UDR = chr;
+//chuong trinh con phat du lieu
+void uart_char_tx(unsigned char chr){	
+	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
+	UDR=chr;
 }
 
 unsigned char uart_getchar() {

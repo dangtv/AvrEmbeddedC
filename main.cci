@@ -1,4 +1,4 @@
-VERSION:3 SOURCE_TIMESTAMP:48ACB342
+VERSION:3 SOURCE_TIMESTAMP:48D674B6
 NODE:I LEVEL:0 LINE:19 "C:\Program Files (x86)\cvavreval\inc\mega16.h"
 NODE:I LEVEL:0 LINE:23 "myds1307rtcver2.h"
 NODE:I LEVEL:0 LINE:27 "myds18b20ver2.h"
@@ -31,6 +31,6 @@ NODE:F LEVEL:0 LINE:298 "hienthithoigian(unsigned char hour,unsigned char minute
 NODE:F LEVEL:0 LINE:311 "hienthi(int x)"
 NODE:F LEVEL:0 LINE:327 "quet(unsigned char x)"
 NODE:F LEVEL:0 LINE:343 "day(void)"
-NODE:F LEVEL:0 LINE:348 "uart_char_tx(unsigned char chr)"
+NODE:F LEVEL:0 LINE:349 "uart_char_tx(unsigned char chr)"
 NODE:F LEVEL:0 LINE:354 "uart_getchar(void)"
 NODE:F LEVEL:0 LINE:360 "getState(unsigned char a)"

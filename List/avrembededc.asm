@@ -2874,15 +2874,27 @@ _0xA000D:
 	LDI  R30,LOW(104)
 	CP   R30,R6
 	BRNE _0xA000E
-; 0005 0115             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) h, (unsigned char) m, (unsigned char) s);
+; 0005 0115             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned ch ...
 	__POINTW1FN _0xA0000,30
 	ST   -Y,R31
 	ST   -Y,R30
-	MOV  R30,R19
+	LDD  R22,Y+8
+	CLR  R23
+	LDD  R26,Y+13
+	CLR  R27
+	LDD  R30,Y+14
+	LDI  R31,0
+	RCALL __MULW12
+	LDI  R26,LOW(12)
+	LDI  R27,HIGH(12)
+	RCALL __MULW12
+	ADD  R30,R22
+	ADC  R31,R23
+	LDI  R31,0
 	RCALL SUBOPT_0x5
-	MOV  R30,R18
+	LDD  R30,Y+11
 	RCALL SUBOPT_0x5
-	MOV  R30,R21
+	LDD  R30,Y+14
 	RCALL SUBOPT_0x5
 	LDI  R24,12
 	RCALL _printf
@@ -3076,12 +3088,12 @@ _day:
 	RET
 ; .FEND
 ;
-;void uart_char_tx(unsigned char chr) {
-; 0005 015C void uart_char_tx(unsigned char chr) {
-; 0005 015D     while (UDRE == 1) {
+;//chuong trinh con phat du lieu
+;void uart_char_tx(unsigned char chr){
+; 0005 015D void uart_char_tx(unsigned char chr){
+; 0005 015E 	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
 ;	chr -> Y+0
-; 0005 015E     }; //cho den khi bit UDRE=1
-; 0005 015F     UDR = chr;
+; 0005 015F 	UDR=chr;
 ; 0005 0160 }
 ;
 ;unsigned char uart_getchar() {
@@ -3854,6 +3866,14 @@ __MULW12U:
 	MUL  R30,R26
 	MOV  R30,R0
 	ADD  R31,R1
+	RET
+
+__MULW12:
+	RCALL __CHKSIGNW
+	RCALL __MULW12U
+	BRTC __MULW121
+	RCALL __ANEGW1
+__MULW121:
 	RET
 
 __DIVW21U:
