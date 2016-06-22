@@ -270,6 +270,7 @@ void main(void) {
 
         if (kytu == 't') {
             //printf ("%c",a);
+            uart_char_tx('T');
             printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
 
         }

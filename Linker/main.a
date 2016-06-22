@@ -503,9 +503,10 @@
 ;PCODE: $000000C4 VOL: 0
 ;PCODE: $000000C5 VOL: 0
 ; 0005 0110             //printf ("%c",a);
-; 0005 0111             printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
+; 0005 0111             uart_char_tx('T');
 ;PCODE: $000000C6 VOL: 0
 ;PCODE: $000000C7 VOL: 0
+; 0005 0112             printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
 ;PCODE: $000000C8 VOL: 0
 ;PCODE: $000000C9 VOL: 0
 ;PCODE: $000000CA VOL: 0
@@ -515,16 +516,16 @@
 ;PCODE: $000000CE VOL: 0
 ;PCODE: $000000CF VOL: 0
 ;PCODE: $000000D0 VOL: 0
-; 0005 0112 
-; 0005 0113         }
-; 0005 0114         if (kytu == 'h') {
 ;PCODE: $000000D1 VOL: 0
 ;PCODE: $000000D2 VOL: 0
+; 0005 0113 
+; 0005 0114         }
+; 0005 0115         if (kytu == 'h') {
 ;PCODE: $000000D3 VOL: 0
 ;PCODE: $000000D4 VOL: 0
-; 0005 0115             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned ch ...
 ;PCODE: $000000D5 VOL: 0
 ;PCODE: $000000D6 VOL: 0
+; 0005 0116             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned ch ...
 ;PCODE: $000000D7 VOL: 0
 ;PCODE: $000000D8 VOL: 0
 ;PCODE: $000000D9 VOL: 0
@@ -550,127 +551,127 @@
 ;PCODE: $000000ED VOL: 0
 ;PCODE: $000000EE VOL: 0
 ;PCODE: $000000EF VOL: 0
-; 0005 0116 
-; 0005 0117         }
-; 0005 0118 
-; 0005 0119 
-; 0005 011A     }
 ;PCODE: $000000F0 VOL: 0
 ;PCODE: $000000F1 VOL: 0
+; 0005 0117 
+; 0005 0118         }
+; 0005 0119 
+; 0005 011A 
+; 0005 011B     }
 ;PCODE: $000000F2 VOL: 0
 ;PCODE: $000000F3 VOL: 0
-; 0005 011B }
 ;PCODE: $000000F4 VOL: 0
 ;PCODE: $000000F5 VOL: 0
+; 0005 011C }
 ;PCODE: $000000F6 VOL: 0
 ;PCODE: $000000F7 VOL: 0
-;
-;void hienthinhietdo(unsigned char temp) {
-; 0005 011D void hienthinhietdo(unsigned char temp) {
 ;PCODE: $000000F8 VOL: 0
 ;PCODE: $000000F9 VOL: 0
-; 0005 011E     unsigned char a, b;
-; 0005 011F     a = temp / 10;
+;
+;void hienthinhietdo(unsigned char temp) {
+; 0005 011E void hienthinhietdo(unsigned char temp) {
 ;PCODE: $000000FA VOL: 0
 ;PCODE: $000000FB VOL: 0
+; 0005 011F     unsigned char a, b;
+; 0005 0120     a = temp / 10;
 ;PCODE: $000000FC VOL: 0
+;PCODE: $000000FD VOL: 0
+;PCODE: $000000FE VOL: 0
 ;	temp -> Y+2
 ;	a -> R17
 ;	b -> R16
-;PCODE: $000000FD VOL: 0
-;PCODE: $000000FE VOL: 0
 ;PCODE: $000000FF VOL: 0
 ;PCODE: $00000100 VOL: 0
 ;PCODE: $00000101 VOL: 0
-; 0005 0120     b = temp % 10;
 ;PCODE: $00000102 VOL: 0
 ;PCODE: $00000103 VOL: 0
+; 0005 0121     b = temp % 10;
 ;PCODE: $00000104 VOL: 0
 ;PCODE: $00000105 VOL: 0
 ;PCODE: $00000106 VOL: 0
-; 0005 0121 
-; 0005 0122 
-; 0005 0123     quet(0xC6);
 ;PCODE: $00000107 VOL: 0
 ;PCODE: $00000108 VOL: 0
-; 0005 0124     quet(0x9C);
+; 0005 0122 
+; 0005 0123 
+; 0005 0124     quet(0xC6);
 ;PCODE: $00000109 VOL: 0
 ;PCODE: $0000010A VOL: 0
-; 0005 0125     quet(ma[b]);
+; 0005 0125     quet(0x9C);
 ;PCODE: $0000010B VOL: 0
 ;PCODE: $0000010C VOL: 0
+; 0005 0126     quet(ma[b]);
 ;PCODE: $0000010D VOL: 0
 ;PCODE: $0000010E VOL: 0
 ;PCODE: $0000010F VOL: 0
-; 0005 0126     quet(ma[a]);
 ;PCODE: $00000110 VOL: 0
 ;PCODE: $00000111 VOL: 0
+; 0005 0127     quet(ma[a]);
 ;PCODE: $00000112 VOL: 0
 ;PCODE: $00000113 VOL: 0
 ;PCODE: $00000114 VOL: 0
-; 0005 0127     day(); // push
 ;PCODE: $00000115 VOL: 0
-; 0005 0128 }
 ;PCODE: $00000116 VOL: 0
+; 0005 0128     day(); // push
 ;PCODE: $00000117 VOL: 0
+; 0005 0129 }
 ;PCODE: $00000118 VOL: 0
 ;PCODE: $00000119 VOL: 0
 ;PCODE: $0000011A VOL: 0
 ;PCODE: $0000011B VOL: 0
 ;PCODE: $0000011C VOL: 0
-;
-;void hienthithoigian(unsigned char hour, unsigned char minute) {
-; 0005 012A void hienthithoigian(unsigned char hour, unsigned char minute) {
 ;PCODE: $0000011D VOL: 0
 ;PCODE: $0000011E VOL: 0
-; 0005 012B     unsigned char a, b, c, d;
-; 0005 012C     a = hour / 10;
+;
+;void hienthithoigian(unsigned char hour, unsigned char minute) {
+; 0005 012B void hienthithoigian(unsigned char hour, unsigned char minute) {
 ;PCODE: $0000011F VOL: 0
 ;PCODE: $00000120 VOL: 0
+; 0005 012C     unsigned char a, b, c, d;
+; 0005 012D     a = hour / 10;
+;PCODE: $00000121 VOL: 0
+;PCODE: $00000122 VOL: 0
 ;	hour -> Y+5
 ;	minute -> Y+4
 ;	a -> R17
 ;	b -> R16
 ;	c -> R19
 ;	d -> R18
-;PCODE: $00000121 VOL: 0
-;PCODE: $00000122 VOL: 0
 ;PCODE: $00000123 VOL: 0
 ;PCODE: $00000124 VOL: 0
 ;PCODE: $00000125 VOL: 0
-; 0005 012D     b = hour % 10;
 ;PCODE: $00000126 VOL: 0
 ;PCODE: $00000127 VOL: 0
+; 0005 012E     b = hour % 10;
 ;PCODE: $00000128 VOL: 0
 ;PCODE: $00000129 VOL: 0
 ;PCODE: $0000012A VOL: 0
-; 0005 012E     c = minute / 10;
 ;PCODE: $0000012B VOL: 0
 ;PCODE: $0000012C VOL: 0
+; 0005 012F     c = minute / 10;
 ;PCODE: $0000012D VOL: 0
 ;PCODE: $0000012E VOL: 0
 ;PCODE: $0000012F VOL: 0
-; 0005 012F     d = minute % 10;
 ;PCODE: $00000130 VOL: 0
 ;PCODE: $00000131 VOL: 0
+; 0005 0130     d = minute % 10;
 ;PCODE: $00000132 VOL: 0
 ;PCODE: $00000133 VOL: 0
 ;PCODE: $00000134 VOL: 0
-; 0005 0130     quet(ma[d]);
 ;PCODE: $00000135 VOL: 0
 ;PCODE: $00000136 VOL: 0
+; 0005 0131     quet(ma[d]);
 ;PCODE: $00000137 VOL: 0
 ;PCODE: $00000138 VOL: 0
 ;PCODE: $00000139 VOL: 0
-; 0005 0131     quet(ma[c]);
 ;PCODE: $0000013A VOL: 0
 ;PCODE: $0000013B VOL: 0
+; 0005 0132     quet(ma[c]);
 ;PCODE: $0000013C VOL: 0
 ;PCODE: $0000013D VOL: 0
 ;PCODE: $0000013E VOL: 0
-; 0005 0132     quet(~(~ma[b] | 0x80));
 ;PCODE: $0000013F VOL: 0
 ;PCODE: $00000140 VOL: 0
+; 0005 0133     quet(~(~ma[b] | 0x80));
 ;PCODE: $00000141 VOL: 0
 ;PCODE: $00000142 VOL: 0
 ;PCODE: $00000143 VOL: 0
@@ -678,110 +679,110 @@
 ;PCODE: $00000145 VOL: 0
 ;PCODE: $00000146 VOL: 0
 ;PCODE: $00000147 VOL: 0
-; 0005 0133     quet(ma[a]);
 ;PCODE: $00000148 VOL: 0
 ;PCODE: $00000149 VOL: 0
+; 0005 0134     quet(ma[a]);
 ;PCODE: $0000014A VOL: 0
 ;PCODE: $0000014B VOL: 0
 ;PCODE: $0000014C VOL: 0
-; 0005 0134     day();
 ;PCODE: $0000014D VOL: 0
-; 0005 0135 }
 ;PCODE: $0000014E VOL: 0
+; 0005 0135     day();
 ;PCODE: $0000014F VOL: 0
+; 0005 0136 }
 ;PCODE: $00000150 VOL: 0
 ;PCODE: $00000151 VOL: 0
-;
-;void hienthi(int x) {
-; 0005 0137 void hienthi(int x) {
 ;PCODE: $00000152 VOL: 0
 ;PCODE: $00000153 VOL: 0
-; 0005 0138     unsigned char a, b, c, d;
-; 0005 0139     int i = 0;
-; 0005 013A     a = x / 1000;
+;
+;void hienthi(int x) {
+; 0005 0138 void hienthi(int x) {
 ;PCODE: $00000154 VOL: 0
 ;PCODE: $00000155 VOL: 0
+; 0005 0139     unsigned char a, b, c, d;
+; 0005 013A     int i = 0;
+; 0005 013B     a = x / 1000;
+;PCODE: $00000156 VOL: 0
+;PCODE: $00000157 VOL: 0
 ;	x -> Y+6
 ;	a -> R17
 ;	b -> R16
 ;	c -> R19
 ;	d -> R18
 ;	i -> R20,R21
-;PCODE: $00000156 VOL: 0
-;PCODE: $00000157 VOL: 0
 ;PCODE: $00000158 VOL: 0
 ;PCODE: $00000159 VOL: 0
 ;PCODE: $0000015A VOL: 0
 ;PCODE: $0000015B VOL: 0
-; 0005 013B     b = (x % 1000) / 100;
 ;PCODE: $0000015C VOL: 0
 ;PCODE: $0000015D VOL: 0
+; 0005 013C     b = (x % 1000) / 100;
 ;PCODE: $0000015E VOL: 0
 ;PCODE: $0000015F VOL: 0
 ;PCODE: $00000160 VOL: 0
 ;PCODE: $00000161 VOL: 0
 ;PCODE: $00000162 VOL: 0
-; 0005 013C     c = (x % 100) / 10;
 ;PCODE: $00000163 VOL: 0
 ;PCODE: $00000164 VOL: 0
+; 0005 013D     c = (x % 100) / 10;
 ;PCODE: $00000165 VOL: 0
 ;PCODE: $00000166 VOL: 0
 ;PCODE: $00000167 VOL: 0
 ;PCODE: $00000168 VOL: 0
 ;PCODE: $00000169 VOL: 0
-; 0005 013D     d = (x % 10);
 ;PCODE: $0000016A VOL: 0
 ;PCODE: $0000016B VOL: 0
+; 0005 013E     d = (x % 10);
 ;PCODE: $0000016C VOL: 0
 ;PCODE: $0000016D VOL: 0
-; 0005 013E 
-; 0005 013F     quet(ma[a]);
 ;PCODE: $0000016E VOL: 0
 ;PCODE: $0000016F VOL: 0
+; 0005 013F 
+; 0005 0140     quet(ma[a]);
 ;PCODE: $00000170 VOL: 0
 ;PCODE: $00000171 VOL: 0
 ;PCODE: $00000172 VOL: 0
-; 0005 0140     quet(ma[b]);
 ;PCODE: $00000173 VOL: 0
 ;PCODE: $00000174 VOL: 0
+; 0005 0141     quet(ma[b]);
 ;PCODE: $00000175 VOL: 0
 ;PCODE: $00000176 VOL: 0
 ;PCODE: $00000177 VOL: 0
-; 0005 0141     quet(ma[c]);
 ;PCODE: $00000178 VOL: 0
 ;PCODE: $00000179 VOL: 0
+; 0005 0142     quet(ma[c]);
 ;PCODE: $0000017A VOL: 0
 ;PCODE: $0000017B VOL: 0
 ;PCODE: $0000017C VOL: 0
-; 0005 0142     quet(ma[d]);
 ;PCODE: $0000017D VOL: 0
 ;PCODE: $0000017E VOL: 0
+; 0005 0143     quet(ma[d]);
 ;PCODE: $0000017F VOL: 0
 ;PCODE: $00000180 VOL: 0
 ;PCODE: $00000181 VOL: 0
-; 0005 0143 
-; 0005 0144     day();
 ;PCODE: $00000182 VOL: 0
-; 0005 0145 }
 ;PCODE: $00000183 VOL: 0
+; 0005 0144 
+; 0005 0145     day();
 ;PCODE: $00000184 VOL: 0
+; 0005 0146 }
 ;PCODE: $00000185 VOL: 0
 ;PCODE: $00000186 VOL: 0
-;
-;void quet(unsigned char x) {
-; 0005 0147 void quet(unsigned char x) {
 ;PCODE: $00000187 VOL: 0
 ;PCODE: $00000188 VOL: 0
-; 0005 0148     unsigned char i, temp;
-; 0005 0149     for (i = 0; i < 8; i++) {
+;
+;void quet(unsigned char x) {
+; 0005 0148 void quet(unsigned char x) {
 ;PCODE: $00000189 VOL: 0
 ;PCODE: $0000018A VOL: 0
+; 0005 0149     unsigned char i, temp;
+; 0005 014A     for (i = 0; i < 8; i++) {
 ;PCODE: $0000018B VOL: 0
+;PCODE: $0000018C VOL: 0
+;PCODE: $0000018D VOL: 0
 ;	x -> Y+2
 ;	i -> R17
 ;	temp -> R16
-;PCODE: $0000018C VOL: 0
-;PCODE: $0000018D VOL: 0
 ;PCODE: $0000018E VOL: 0
 ;PCODE: $0000018F VOL: 0
 ;PCODE: $00000190 VOL: 0
@@ -789,122 +790,122 @@
 ;PCODE: $00000192 VOL: 0
 ;PCODE: $00000193 VOL: 0
 ;PCODE: $00000194 VOL: 0
-; 0005 014A         temp = x;
 ;PCODE: $00000195 VOL: 0
 ;PCODE: $00000196 VOL: 0
-; 0005 014B         temp = temp & 0x80;
+; 0005 014B         temp = x;
 ;PCODE: $00000197 VOL: 0
 ;PCODE: $00000198 VOL: 0
-; 0005 014C         if (temp == 0x80) {
+; 0005 014C         temp = temp & 0x80;
 ;PCODE: $00000199 VOL: 0
 ;PCODE: $0000019A VOL: 0
+; 0005 014D         if (temp == 0x80) {
 ;PCODE: $0000019B VOL: 0
-; 0005 014D             PORTA.1 = 1;
 ;PCODE: $0000019C VOL: 0
 ;PCODE: $0000019D VOL: 0
-; 0005 014E         } else {
+; 0005 014E             PORTA.1 = 1;
 ;PCODE: $0000019E VOL: 0
 ;PCODE: $0000019F VOL: 0
-; 0005 014F             PORTA.1 = 0;
+; 0005 014F         } else {
 ;PCODE: $000001A0 VOL: 0
 ;PCODE: $000001A1 VOL: 0
-; 0005 0150         }
+; 0005 0150             PORTA.1 = 0;
 ;PCODE: $000001A2 VOL: 0
-; 0005 0151         x = x * 2;
 ;PCODE: $000001A3 VOL: 0
+; 0005 0151         }
 ;PCODE: $000001A4 VOL: 0
+; 0005 0152         x = x * 2;
 ;PCODE: $000001A5 VOL: 0
-; 0005 0152         PORTA.0 = 0;
 ;PCODE: $000001A6 VOL: 0
 ;PCODE: $000001A7 VOL: 0
-; 0005 0153         PORTA.0 = 1;
+; 0005 0153         PORTA.0 = 0;
 ;PCODE: $000001A8 VOL: 0
 ;PCODE: $000001A9 VOL: 0
-; 0005 0154     }
+; 0005 0154         PORTA.0 = 1;
 ;PCODE: $000001AA VOL: 0
 ;PCODE: $000001AB VOL: 0
+; 0005 0155     }
 ;PCODE: $000001AC VOL: 0
 ;PCODE: $000001AD VOL: 0
 ;PCODE: $000001AE VOL: 0
-; 0005 0155 }
 ;PCODE: $000001AF VOL: 0
 ;PCODE: $000001B0 VOL: 0
+; 0005 0156 }
 ;PCODE: $000001B1 VOL: 0
 ;PCODE: $000001B2 VOL: 0
 ;PCODE: $000001B3 VOL: 0
 ;PCODE: $000001B4 VOL: 0
 ;PCODE: $000001B5 VOL: 0
-;
-;void day() {
-; 0005 0157 void day() {
 ;PCODE: $000001B6 VOL: 0
 ;PCODE: $000001B7 VOL: 0
-; 0005 0158     PORTA.2 = 0;
+;
+;void day() {
+; 0005 0158 void day() {
 ;PCODE: $000001B8 VOL: 0
 ;PCODE: $000001B9 VOL: 0
-; 0005 0159     PORTA.2 = 1;
+; 0005 0159     PORTA.2 = 0;
 ;PCODE: $000001BA VOL: 0
 ;PCODE: $000001BB VOL: 0
-; 0005 015A }
+; 0005 015A     PORTA.2 = 1;
 ;PCODE: $000001BC VOL: 0
 ;PCODE: $000001BD VOL: 0
+; 0005 015B }
+;PCODE: $000001BE VOL: 0
+;PCODE: $000001BF VOL: 0
 ;
 ;//chuong trinh con phat du lieu
 ;void uart_char_tx(unsigned char chr){
-; 0005 015D void uart_char_tx(unsigned char chr){
-;PCODE: $000001BE VOL: 0
-;PCODE: $000001BF VOL: 0
-; 0005 015E 	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
+; 0005 015E void uart_char_tx(unsigned char chr){
 ;PCODE: $000001C0 VOL: 0
-;	chr -> Y+0
 ;PCODE: $000001C1 VOL: 0
+; 0005 015F 	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
 ;PCODE: $000001C2 VOL: 0
+;	chr -> Y+0
 ;PCODE: $000001C3 VOL: 0
 ;PCODE: $000001C4 VOL: 0
 ;PCODE: $000001C5 VOL: 0
 ;PCODE: $000001C6 VOL: 0
-; 0005 015F 	UDR=chr;
 ;PCODE: $000001C7 VOL: 0
 ;PCODE: $000001C8 VOL: 0
-; 0005 0160 }
+; 0005 0160 	UDR=chr;
 ;PCODE: $000001C9 VOL: 0
 ;PCODE: $000001CA VOL: 0
+; 0005 0161 }
 ;PCODE: $000001CB VOL: 0
-;
-;unsigned char uart_getchar() {
-; 0005 0162 unsigned char uart_getchar() {
 ;PCODE: $000001CC VOL: 0
 ;PCODE: $000001CD VOL: 0
-; 0005 0163     unsigned char a = '';
-; 0005 0164     a = UDR;
+;
+;unsigned char uart_getchar() {
+; 0005 0163 unsigned char uart_getchar() {
 ;PCODE: $000001CE VOL: 0
-;	a -> R17
 ;PCODE: $000001CF VOL: 0
+; 0005 0164     unsigned char a = '';
+; 0005 0165     a = UDR;
 ;PCODE: $000001D0 VOL: 0
+;	a -> R17
 ;PCODE: $000001D1 VOL: 0
 ;PCODE: $000001D2 VOL: 0
-; 0005 0165     return a;
 ;PCODE: $000001D3 VOL: 0
 ;PCODE: $000001D4 VOL: 0
+; 0005 0166     return a;
 ;PCODE: $000001D5 VOL: 0
-; 0005 0166 }
 ;PCODE: $000001D6 VOL: 0
+;PCODE: $000001D7 VOL: 0
+; 0005 0167 }
+;PCODE: $000001D8 VOL: 0
 ;
 ;void getState(unsigned char a) {
-; 0005 0168 void getState(unsigned char a) {
-;PCODE: $000001D7 VOL: 0
-;PCODE: $000001D8 VOL: 0
-; 0005 0169     switch (a) {
+; 0005 0169 void getState(unsigned char a) {
 ;PCODE: $000001D9 VOL: 0
-;	a -> Y+0
 ;PCODE: $000001DA VOL: 0
+; 0005 016A     switch (a) {
 ;PCODE: $000001DB VOL: 0
-; 0005 016A         case 't':
+;	a -> Y+0
 ;PCODE: $000001DC VOL: 0
 ;PCODE: $000001DD VOL: 0
-; 0005 016B             printf("Nhiet do hien tai la %f", temp);
+; 0005 016B         case 't':
 ;PCODE: $000001DE VOL: 0
 ;PCODE: $000001DF VOL: 0
+; 0005 016C             printf("Nhiet do hien tai la %f", temp);
 ;PCODE: $000001E0 VOL: 0
 ;PCODE: $000001E1 VOL: 0
 ;PCODE: $000001E2 VOL: 0
@@ -912,28 +913,30 @@
 ;PCODE: $000001E4 VOL: 0
 ;PCODE: $000001E5 VOL: 0
 ;PCODE: $000001E6 VOL: 0
-; 0005 016C             break;
 ;PCODE: $000001E7 VOL: 0
-; 0005 016D         case 'h':
 ;PCODE: $000001E8 VOL: 0
+; 0005 016D             break;
 ;PCODE: $000001E9 VOL: 0
+; 0005 016E         case 'h':
 ;PCODE: $000001EA VOL: 0
-; 0005 016E             printf("xin chao");
 ;PCODE: $000001EB VOL: 0
 ;PCODE: $000001EC VOL: 0
+; 0005 016F             printf("xin chao");
 ;PCODE: $000001ED VOL: 0
 ;PCODE: $000001EE VOL: 0
 ;PCODE: $000001EF VOL: 0
 ;PCODE: $000001F0 VOL: 0
 ;PCODE: $000001F1 VOL: 0
-; 0005 016F             break;
 ;PCODE: $000001F2 VOL: 0
-; 0005 0170     }
 ;PCODE: $000001F3 VOL: 0
-; 0005 0171 }
+; 0005 0170             break;
 ;PCODE: $000001F4 VOL: 0
+; 0005 0171     }
 ;PCODE: $000001F5 VOL: 0
+; 0005 0172 }
 ;PCODE: $000001F6 VOL: 0
+;PCODE: $000001F7 VOL: 0
+;PCODE: $000001F8 VOL: 0
 ;
 ;//interrupt [USART_RXC] void rx_isr(){ //ngat nhan khi bit RXC =1
 ;//  kytu = UDR;

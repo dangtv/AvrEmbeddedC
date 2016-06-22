@@ -2858,7 +2858,10 @@ _0xA000A:
 	CP   R30,R6
 	BRNE _0xA000D
 ; 0005 0110             //printf ("%c",a);
-; 0005 0111             printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
+; 0005 0111             uart_char_tx('T');
+	LDI  R26,LOW(84)
+	RCALL _uart_char_tx
+; 0005 0112             printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
 	__POINTW1FN _0xA0000,0
 	ST   -Y,R31
 	ST   -Y,R30
@@ -2867,14 +2870,14 @@ _0xA000A:
 	LDI  R24,4
 	RCALL _printf
 	ADIW R28,6
-; 0005 0112 
-; 0005 0113         }
-; 0005 0114         if (kytu == 'h') {
+; 0005 0113 
+; 0005 0114         }
+; 0005 0115         if (kytu == 'h') {
 _0xA000D:
 	LDI  R30,LOW(104)
 	CP   R30,R6
 	BRNE _0xA000E
-; 0005 0115             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned ch ...
+; 0005 0116             printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned ch ...
 	__POINTW1FN _0xA0000,30
 	ST   -Y,R31
 	ST   -Y,R30
@@ -2899,25 +2902,25 @@ _0xA000D:
 	LDI  R24,12
 	RCALL _printf
 	ADIW R28,14
-; 0005 0116 
-; 0005 0117         }
-; 0005 0118 
+; 0005 0117 
+; 0005 0118         }
 ; 0005 0119 
-; 0005 011A     }
+; 0005 011A 
+; 0005 011B     }
 _0xA000E:
 	ADIW R28,4
 	RJMP _0xA000A
-; 0005 011B }
+; 0005 011C }
 _0xA000F:
 	RJMP _0xA000F
 ; .FEND
 ;
 ;void hienthinhietdo(unsigned char temp) {
-; 0005 011D void hienthinhietdo(unsigned char temp) {
+; 0005 011E void hienthinhietdo(unsigned char temp) {
 _hienthinhietdo:
 ; .FSTART _hienthinhietdo
-; 0005 011E     unsigned char a, b;
-; 0005 011F     a = temp / 10;
+; 0005 011F     unsigned char a, b;
+; 0005 0120     a = temp / 10;
 	ST   -Y,R26
 	ST   -Y,R17
 	ST   -Y,R16
@@ -2926,34 +2929,34 @@ _hienthinhietdo:
 ;	b -> R16
 	LDD  R26,Y+2
 	RCALL SUBOPT_0x6
-; 0005 0120     b = temp % 10;
+; 0005 0121     b = temp % 10;
 	LDD  R26,Y+2
 	RCALL SUBOPT_0x7
-; 0005 0121 
 ; 0005 0122 
-; 0005 0123     quet(0xC6);
+; 0005 0123 
+; 0005 0124     quet(0xC6);
 	LDI  R26,LOW(198)
 	RCALL _quet
-; 0005 0124     quet(0x9C);
+; 0005 0125     quet(0x9C);
 	LDI  R26,LOW(156)
 	RCALL SUBOPT_0x8
-; 0005 0125     quet(ma[b]);
+; 0005 0126     quet(ma[b]);
 	LD   R26,Z
 	RCALL SUBOPT_0x9
-; 0005 0126     quet(ma[a]);
-; 0005 0127     day(); // push
-; 0005 0128 }
+; 0005 0127     quet(ma[a]);
+; 0005 0128     day(); // push
+; 0005 0129 }
 	LDD  R17,Y+1
 	LDD  R16,Y+0
 	RJMP _0x20A0001
 ; .FEND
 ;
 ;void hienthithoigian(unsigned char hour, unsigned char minute) {
-; 0005 012A void hienthithoigian(unsigned char hour, unsigned char minute) {
+; 0005 012B void hienthithoigian(unsigned char hour, unsigned char minute) {
 _hienthithoigian:
 ; .FSTART _hienthithoigian
-; 0005 012B     unsigned char a, b, c, d;
-; 0005 012C     a = hour / 10;
+; 0005 012C     unsigned char a, b, c, d;
+; 0005 012D     a = hour / 10;
 	ST   -Y,R26
 	RCALL __SAVELOCR4
 ;	hour -> Y+5
@@ -2964,74 +2967,74 @@ _hienthithoigian:
 ;	d -> R18
 	LDD  R26,Y+5
 	RCALL SUBOPT_0x6
-; 0005 012D     b = hour % 10;
+; 0005 012E     b = hour % 10;
 	LDD  R26,Y+5
 	RCALL SUBOPT_0x7
-; 0005 012E     c = minute / 10;
+; 0005 012F     c = minute / 10;
 	LDD  R26,Y+4
 	LDI  R27,0
 	LDI  R30,LOW(10)
 	LDI  R31,HIGH(10)
 	RCALL __DIVW21
 	MOV  R19,R30
-; 0005 012F     d = minute % 10;
+; 0005 0130     d = minute % 10;
 	LDD  R26,Y+4
 	CLR  R27
 	LDI  R30,LOW(10)
 	LDI  R31,HIGH(10)
 	RCALL __MODW21
 	MOV  R18,R30
-; 0005 0130     quet(ma[d]);
+; 0005 0131     quet(ma[d]);
 	RCALL SUBOPT_0xA
 	RCALL _quet
-; 0005 0131     quet(ma[c]);
+; 0005 0132     quet(ma[c]);
 	MOV  R30,R19
 	RCALL SUBOPT_0xA
 	RCALL SUBOPT_0x8
-; 0005 0132     quet(~(~ma[b] | 0x80));
+; 0005 0133     quet(~(~ma[b] | 0x80));
 	LD   R30,Z
 	COM  R30
 	ORI  R30,0x80
 	COM  R30
 	MOV  R26,R30
 	RCALL SUBOPT_0x9
-; 0005 0133     quet(ma[a]);
-; 0005 0134     day();
-; 0005 0135 }
+; 0005 0134     quet(ma[a]);
+; 0005 0135     day();
+; 0005 0136 }
 	RCALL __LOADLOCR4
 	ADIW R28,6
 	RET
 ; .FEND
 ;
 ;void hienthi(int x) {
-; 0005 0137 void hienthi(int x) {
-; 0005 0138     unsigned char a, b, c, d;
-; 0005 0139     int i = 0;
-; 0005 013A     a = x / 1000;
+; 0005 0138 void hienthi(int x) {
+; 0005 0139     unsigned char a, b, c, d;
+; 0005 013A     int i = 0;
+; 0005 013B     a = x / 1000;
 ;	x -> Y+6
 ;	a -> R17
 ;	b -> R16
 ;	c -> R19
 ;	d -> R18
 ;	i -> R20,R21
-; 0005 013B     b = (x % 1000) / 100;
-; 0005 013C     c = (x % 100) / 10;
-; 0005 013D     d = (x % 10);
-; 0005 013E 
-; 0005 013F     quet(ma[a]);
-; 0005 0140     quet(ma[b]);
-; 0005 0141     quet(ma[c]);
-; 0005 0142     quet(ma[d]);
-; 0005 0143 
-; 0005 0144     day();
-; 0005 0145 }
+; 0005 013C     b = (x % 1000) / 100;
+; 0005 013D     c = (x % 100) / 10;
+; 0005 013E     d = (x % 10);
+; 0005 013F 
+; 0005 0140     quet(ma[a]);
+; 0005 0141     quet(ma[b]);
+; 0005 0142     quet(ma[c]);
+; 0005 0143     quet(ma[d]);
+; 0005 0144 
+; 0005 0145     day();
+; 0005 0146 }
 ;
 ;void quet(unsigned char x) {
-; 0005 0147 void quet(unsigned char x) {
+; 0005 0148 void quet(unsigned char x) {
 _quet:
 ; .FSTART _quet
-; 0005 0148     unsigned char i, temp;
-; 0005 0149     for (i = 0; i < 8; i++) {
+; 0005 0149     unsigned char i, temp;
+; 0005 014A     for (i = 0; i < 8; i++) {
 	ST   -Y,R26
 	ST   -Y,R17
 	ST   -Y,R16
@@ -3042,80 +3045,90 @@ _quet:
 _0xA0011:
 	CPI  R17,8
 	BRSH _0xA0012
-; 0005 014A         temp = x;
+; 0005 014B         temp = x;
 	LDD  R16,Y+2
-; 0005 014B         temp = temp & 0x80;
+; 0005 014C         temp = temp & 0x80;
 	ANDI R16,LOW(128)
-; 0005 014C         if (temp == 0x80) {
+; 0005 014D         if (temp == 0x80) {
 	CPI  R16,128
 	BRNE _0xA0013
-; 0005 014D             PORTA.1 = 1;
+; 0005 014E             PORTA.1 = 1;
 	SBI  0x1B,1
-; 0005 014E         } else {
+; 0005 014F         } else {
 	RJMP _0xA0016
 _0xA0013:
-; 0005 014F             PORTA.1 = 0;
+; 0005 0150             PORTA.1 = 0;
 	CBI  0x1B,1
-; 0005 0150         }
+; 0005 0151         }
 _0xA0016:
-; 0005 0151         x = x * 2;
+; 0005 0152         x = x * 2;
 	LDD  R30,Y+2
 	LSL  R30
 	STD  Y+2,R30
-; 0005 0152         PORTA.0 = 0;
+; 0005 0153         PORTA.0 = 0;
 	CBI  0x1B,0
-; 0005 0153         PORTA.0 = 1;
+; 0005 0154         PORTA.0 = 1;
 	SBI  0x1B,0
-; 0005 0154     }
+; 0005 0155     }
 	SUBI R17,-1
 	RJMP _0xA0011
 _0xA0012:
-; 0005 0155 }
+; 0005 0156 }
 	LDD  R17,Y+1
 	LDD  R16,Y+0
 	RJMP _0x20A0001
 ; .FEND
 ;
 ;void day() {
-; 0005 0157 void day() {
+; 0005 0158 void day() {
 _day:
 ; .FSTART _day
-; 0005 0158     PORTA.2 = 0;
+; 0005 0159     PORTA.2 = 0;
 	CBI  0x1B,2
-; 0005 0159     PORTA.2 = 1;
+; 0005 015A     PORTA.2 = 1;
 	SBI  0x1B,2
-; 0005 015A }
+; 0005 015B }
 	RET
 ; .FEND
 ;
 ;//chuong trinh con phat du lieu
 ;void uart_char_tx(unsigned char chr){
-; 0005 015D void uart_char_tx(unsigned char chr){
-; 0005 015E 	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
+; 0005 015E void uart_char_tx(unsigned char chr){
+_uart_char_tx:
+; .FSTART _uart_char_tx
+; 0005 015F 	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
+	ST   -Y,R26
 ;	chr -> Y+0
-; 0005 015F 	UDR=chr;
-; 0005 0160 }
+_0xA0021:
+	SBIS 0xB,5
+	RJMP _0xA0021
+; 0005 0160 	UDR=chr;
+	LD   R30,Y
+	OUT  0xC,R30
+; 0005 0161 }
+	RJMP _0x20A0002
+; .FEND
 ;
 ;unsigned char uart_getchar() {
-; 0005 0162 unsigned char uart_getchar() {
-; 0005 0163     unsigned char a = '';
-; 0005 0164     a = UDR;
+; 0005 0163 unsigned char uart_getchar() {
+; 0005 0164     unsigned char a = '';
+; 0005 0165     a = UDR;
 ;	a -> R17
-; 0005 0165     return a;
-; 0005 0166 }
+; 0005 0166     return a;
+; 0005 0167 }
 ;
 ;void getState(unsigned char a) {
-; 0005 0168 void getState(unsigned char a) {
-; 0005 0169     switch (a) {
+; 0005 0169 void getState(unsigned char a) {
+; 0005 016A     switch (a) {
 ;	a -> Y+0
-; 0005 016A         case 't':
-; 0005 016B             printf("Nhiet do hien tai la %f", temp);
-; 0005 016C             break;
-; 0005 016D         case 'h':
-; 0005 016E             printf("xin chao");
-; 0005 016F             break;
-; 0005 0170     }
-; 0005 0171 }
+; 0005 016B         case 't':
+; 0005 016C             printf("Nhiet do hien tai la %f", temp);
+; 0005 016D             break;
+; 0005 016E         case 'h':
+; 0005 016F             printf("xin chao");
+; 0005 0170             break;
+; 0005 0171     }
+; 0005 0172 }
 ;
 ;//interrupt [USART_RXC] void rx_isr(){ //ngat nhan khi bit RXC =1
 ;//  kytu = UDR;
