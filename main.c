@@ -31,7 +31,11 @@ Data Stack size         : 256
 #include <stdio.h>
 #include <delay.h>
 #include <string.h>
+#include <io.h>
+#include <interrupt.h>
 
+#define IS_MASTER 1
+#define MY_ADDRESS 2
 #define FRAMING_ERROR (1<<FE)
 #define PARITY_ERROR (1<<UPE)
 #define DATA_OVERRUN (1<<DOR)
@@ -49,19 +53,6 @@ unsigned int rx_wr_index, rx_rd_index, rx_counter;
 bit rx_buffer_overflow;
 // USART Receiver interrupt service routine
 
-interrupt [USART_RXC] void usart_rx_isr(void) {
-    char status, data;
-    status = UCSRA;
-    data = UDR;
-    if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN)) == 0) {
-        rx_buffer[rx_wr_index] = data;
-        if (++rx_wr_index == RX_BUFFER_SIZE) rx_wr_index = 0;
-        if (++rx_counter == RX_BUFFER_SIZE) {
-            rx_counter = 0;
-            rx_buffer_overflow = 1;
-        };
-    };
-}
 
 // Declare your global variables here
 unsigned char ma[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
@@ -75,14 +66,106 @@ void hienthithoigian(unsigned char hour, unsigned char minute);
 void uart_char_tx(unsigned char chr);
 unsigned char uart_getchar();
 void getState(unsigned char);
-
+void process_received_data();
 
 float temp;
 unsigned char kytu = '';
 unsigned char b = 2;
+unsigned char received_byte = '';
+unsigned char received_package[10];
+int isComplete = 1;
+int package_size = 0;
+int slave_enable = 0;
 
 byte ttemp0; // first byte
 byte ttemp1;
+
+void execute_query();
+void send_confirm_to_master();
+// thuc thi cau lenh doc tu goi tin (package))
+
+void execute_query() {
+    Time t;
+
+    if (IS_MASTER) {
+        if (package_size == 4) {
+            if (received_package[2] == 't') {
+                //printf ("%c",a);
+                temp = ds18b20_gettemp();
+                uart_char_tx('T');
+                printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
+
+            }
+            if (received_package[2] == 'h') {
+                t = myGetTimeFromDS1307ver2();
+                printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (t.Hour + t.Mode * t.AP * 12), (unsigned char) t.Minute, (unsigned char) t.Second);
+
+            }
+
+        }
+    }
+    package_size = 0;
+}
+
+// doc tung byte va luu vao goi tin theo dinh dang
+
+void process_received_data() {
+    if (IS_MASTER) {
+        // xu ly du lieu nhan duoc tren master
+        if (isComplete) {
+            if (received_byte == '@') {
+                //printf("bat dau goi tin; ");
+                isComplete = 0;
+                received_package[package_size] = received_byte;
+                package_size++;
+            }
+        } else {
+            received_package[package_size] = received_byte;
+            package_size++;
+            if ((received_byte == '#') || (package_size > 9)) {
+                //printf("ket thuc goi tin; ");
+                isComplete = 1;
+                execute_query();
+            }
+        }
+    } else {
+        // xu ly du lieu nhan duoc tren slave
+    }
+}
+
+void send_confirm_to_master() {
+    uart_char_tx('$');
+}
+
+void enable_slave(){
+    slave_enable = 1;
+    UCSRA &=~(1<<MPCM);
+}
+
+void disable_slave(){
+    slave_enable = 0;
+    UCSRA |=(1<<MPCM);
+}
+
+// xu ly ngat nhan du lieu
+interrupt [USART_RXC] void usart_rx_isr(void) {
+    if (IS_MASTER) {
+        // xu ly ngat nhan du lieu tren master
+        received_byte = UDR;
+        process_received_data();
+    } else {
+        //xu ly ngat nhan du lieu tren slave
+        if (slave_enable) {
+            process_received_data();
+        }
+        else{
+            if (MY_ADDRESS == received_byte) {
+                enable_slave();
+                send_confirm_to_master();
+            }
+        }
+    }
+}
 
 char mygetchar(void) {
     char data;
@@ -191,7 +274,7 @@ void main(void) {
     // USART Baud Rate: 9600
     UCSRA = 0x00;
     UCSRC = (1 << URSEL) | (1 << UCSZ1) | (1 << UCSZ0);
-    UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
+    UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE) | (1 << UCSZ2);
     UBRRH = 0x00;
     UBRRL = 0x19;
 
@@ -261,23 +344,14 @@ void main(void) {
         hienthithoigian(time.Hour + time.Mode * time.AP * 12, time.Minute); // hien thi theo 24h
         delay_ms(2000);
 
-        
-        kytu = mygetchar();
+
+        // kytu = mygetchar();
         // if(kytu !=0) putchar(kytu);
         // printf("%c", my_variable);
         //printf("Nhiet do hien tai la"); 
         //kytu = uart_getchar();  
 
-        if (kytu == 't') {
-            //printf ("%c",a);
-            uart_char_tx('T');
-            printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
 
-        }
-        if (kytu == 'h') {
-            printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (time.Hour + time.Mode * time.AP * 12), (unsigned char) time.Minute, (unsigned char) time.Second);
-
-        }
 
 
     }
@@ -347,9 +421,10 @@ void day() {
 }
 
 //chuong trinh con phat du lieu
-void uart_char_tx(unsigned char chr){	
-	while ( !( UCSRA & (1<<UDRE))) ; //cho den khi bit UDRE=1 moi thoat khoi while
-	UDR=chr;
+
+void uart_char_tx(unsigned char chr) {
+    while (!(UCSRA & (1 << UDRE))); //cho den khi bit UDRE=1 moi thoat khoi while
+    UDR = chr;
 }
 
 unsigned char uart_getchar() {

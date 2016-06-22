@@ -1,5 +1,11 @@
-main DSTACK_USAGE:15 DSTACK_LEVEL:15 FILE:"main.c" LINE:101
-printf DSTACK_USAGE:10 DSTACK_LEVEL:25 FILE:"C:\Program Files (x86)\cvavreval\lib\stdio.lib" LINE:1545
-_print DSTACK_USAGE:20 DSTACK_LEVEL:45 FILE:"C:\Program Files (x86)\cvavreval\lib\stdio.lib" LINE:550
-strlen DSTACK_USAGE:2 DSTACK_LEVEL:47 FILE:"C:\Program Files (x86)\cvavreval\lib\string.lib" LINE:1708
-usart_rx_isr DSTACK_USAGE:5 DSTACK_LEVEL:52 FILE:"main.c" LINE:52
+main DSTACK_USAGE:15 DSTACK_LEVEL:15 FILE:"main.c" LINE:184
+myGetTimeFromDS1307ver2 DSTACK_USAGE:18 DSTACK_LEVEL:33 FILE:"myds1307rtcver2.c" LINE:56
+I2C_ReadRegister DSTACK_USAGE:3 DSTACK_LEVEL:36 FILE:"myi2c.c" LINE:76
+I2C_Start DSTACK_USAGE:1 DSTACK_LEVEL:37 FILE:"myi2c.c" LINE:35
+I2C_Detect DSTACK_USAGE:1 DSTACK_LEVEL:38 FILE:"myi2c.c" LINE:12
+usart_rx_isr DSTACK_USAGE:12 DSTACK_LEVEL:50 FILE:"main.c" LINE:151
+process_received_data DSTACK_USAGE:0 DSTACK_LEVEL:50 FILE:"main.c" LINE:112
+execute_query DSTACK_USAGE:9 DSTACK_LEVEL:59 FILE:"main.c" LINE:87
+printf DSTACK_USAGE:10 DSTACK_LEVEL:69 FILE:"C:\Program Files (x86)\cvavreval\lib\stdio.lib" LINE:1545
+_print DSTACK_USAGE:20 DSTACK_LEVEL:89 FILE:"C:\Program Files (x86)\cvavreval\lib\stdio.lib" LINE:550
+strlen DSTACK_USAGE:2 DSTACK_LEVEL:91 FILE:"C:\Program Files (x86)\cvavreval\lib\string.lib" LINE:1708
