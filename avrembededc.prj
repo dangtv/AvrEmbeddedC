@@ -5,7 +5,7 @@ CV=2.05.6 Evaluation
 A=Freeware, for evaluation andC=
 D=31/3/2016 7:55:08 PM
 Files=6
-OpenedFiles=7
+OpenedFiles=8
 OF1=myds1307rtc.c
 Active1=1
 OutputListFilesDirectory=List
@@ -43,11 +43,11 @@ F6=main.c
 OF5=myi2c.c
 TimeStamp5=1219277524
 OF6=main.c
-TimeStamp6=1222069825
-OF7=myds1307rtc.h
-TimeStamp7=1222020339
-OF8=myds1307rtcver2.h
-TimeStamp8=1219276548
+TimeStamp6=1222081991
+OF7=myds18b20ver2.c
+TimeStamp7=1219275109
+OF8=myds18b20ver1.c
+TimeStamp8=1219274948
 OF9=myds1307rtcver2.c
 TimeStamp9=1219277414
 OF10=myi2c.h
@@ -148,7 +148,7 @@ WarningExternalDeclaredNeverDefined=1
 WarningUnknownPragma=1
 DebugBootLoader=0
 WatchAVR8LAutoVariables=0
-Build=283
+Build=284
 UseEEPROMLocation0=1
 ExternalInterruptVectors=0
 IncludePath0=C:\Program Files (x86)\cvavreval\inc
@@ -387,9 +387,9 @@ Row=0
 Column=0
 ScrollPosX=0
 ScrollPosY=0
-TimeStamp=1222080678
+TimeStamp=1222115741
 [BookmarksFoldedCode]
-Files=14
+Files=17
 F1=05.c
 F2=C:\Program Files (x86)\cvavreval\lib\stdio.lib
 F3=temp_interupt.c
@@ -404,6 +404,9 @@ F11=myi2c.c
 F12=myi2c.h
 F13=myds1307rtcver2.h
 F14=main.c
+F15=myds18b20ver2.c
+F16=myds18b20ver1.c
+F17=myds18b20ver2.h
 [Bookmarks1]
 TimeStamp=1216655401
 Row=89
@@ -421,7 +424,7 @@ BK7=-1
 BK8=-1
 BK9=-1
 [CompilerDebug]
-Build=283
+Build=284
 RebuildAll=1
 LinkageInformationPresent=0
 UseEEPROMLocation0=1
@@ -540,44 +543,44 @@ L13=Enhanced function parameters passing: Mode 1
 L14=Automatic register allocation: Yes
 L15=Smart register allocation: Yes
 L16=
-L17=Build: 283
-L18=4250 line(s) compiled
+L17=Build: 284
+L18=0 line(s) compiled
 L19=No errors
-L20=50 warning(s)
+L20=No warnings
 L21=
-L22=Bit variables area: 0x2 to 0x2
-L23=Bit variables size: 1 byte(s)
-L24=
-L25=Data Stack area: 0x60 to 0x15F
-L26=Data Stack size: 256 byte(s)
-L27=Estimated Data Stack usage: 72 byte(s)
-L28=
-L29=RAM Global variables area: 0x160 to 0x18C
-L30=RAM Global variables size: 45 byte(s)
-L31=
-L32=Hardware Stack area: 0x18D to 0x45F
-L33=Hardware Stack size: 723 byte(s)
-L34=
-L35=Heap size: 0 byte(s)
-L36=
-L37=EEPROM usage: 0 byte(s), 0.0% of EEPROM
+L22=Bit variables size: 0 byte(s)
+L23=
+L24=Data Stack area: 0x60 to 0x15F
+L25=Data Stack size: 256 byte(s)
+L26=Estimated Data Stack usage: 0 byte(s)
+L27=
+L28=RAM Global variables area: 0x160 to 0x18C
+L29=RAM Global variables size: 45 byte(s)
+L30=
+L31=Hardware Stack area: 0x18D to 0x45F
+L32=Hardware Stack size: 723 byte(s)
+L33=
+L34=Heap size: 0 byte(s)
+L35=
+L36=EEPROM usage: 0 byte(s), 0.0% of EEPROM
+L37=Program size: 1377 words (2754 bytes), 16.8% of FLASH
 L38=Program size: 1377 words (2754 bytes), 16.8% of FLASH
-Lines=39
+Lines=37
 L39=81 words (162 bytes), 5.6% reduced by Code Compression
 [BuildInfoAssembler]
 L1=AVRASM: AVR macro assembler 2.1.30 (build 592 Nov  7 2008 12:38:17)
 L2=Copyright (C) 1995-2008 ATMEL Corporation
 L3=
-L4=D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm(4291): No EEPROM data, deleting D:\Projects\avr projects\AvrEmbeddedC\Exe\avrembededc.eep
-L5=
-L6=ATmega16 memory use summary [bytes]:
-L7=Segment   Begin    End      Code   Data   Used    Size   Use%
-L8=---------------------------------------------------------------
-L9=[.cseg] 0x000000 0x000ac2   2634    120   2754   16384  16.8%
-L10=[.dseg] 0x000060 0x00018d      0     45     45    1024   4.4%
-L11=[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
-L12=
-Lines=12
+L4=Could not create list file 'D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.lst': Permission denied
+L5=D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm(4291): No EEPROM data, deleting D:\Projects\avr projects\AvrEmbeddedC\Exe\avrembededc.eep
+L6=
+L7=ATmega16 memory use summary [bytes]:
+L8=Segment   Begin    End      Code   Data   Used    Size   Use%
+L9=---------------------------------------------------------------
+L10=[.cseg] 0x000000 0x000ac2   2634    120   2754   16384  16.8%
+L11=[.dseg] 0x000060 0x00018d      0     45     45    1024   4.4%
+L12=[.eseg] 0x000000 0x000000      0      0      0     512   0.0%
+Lines=13
 L13=
 [Bookmarks2]
 TimeStamp=1192454685
@@ -633,10 +636,10 @@ HIDMouse=0
 HIDJoystick=0
 [Bookmarks4]
 TimeStamp=1222020339
-Row=38
-Column=35
+Row=12
+Column=44
 ScrollPosX=0
-ScrollPosY=26
+ScrollPosY=0
 BK0=-1
 BK1=-1
 BK2=-1
@@ -897,9 +900,9 @@ BK7=-1
 BK8=-1
 BK9=-1
 [Bookmarks14]
-TimeStamp=1222080285
-Row=0
-Column=0
+TimeStamp=1222081991
+Row=5
+Column=10
 ScrollPosX=0
 ScrollPosY=0
 BK0=-1
@@ -925,20 +928,6 @@ F4=C:\Program Files (x86)\cvavreval\inc\mega16_bits.h
 F5=C:\Program Files (x86)\cvavreval\inc\stdio.h
 F6=C:\Program Files (x86)\cvavreval\inc\stdarg.h
 F7=C:\Program Files (x86)\cvavreval\inc\delay.h
-[FoldedCode9]
-Blocks=0
-[FoldedCode10]
-Blocks=0
-[FoldedCode11]
-Blocks=0
-[FoldedCode14]
-Blocks=0
-[FoldedCode4]
-Blocks=0
-[FoldedCode12]
-Blocks=0
-[FoldedCode13]
-Blocks=0
 [Header11]
 Files=11
 F1=C:\Program Files (x86)\cvavreval\inc\mega16.h
@@ -952,3 +941,71 @@ F8=C:\Program Files (x86)\cvavreval\inc\delay.h
 F9=myds18b20ver2.h
 F10=C:\Program Files (x86)\cvavreval\inc\string.h
 F11=C:\Program Files (x86)\cvavreval\inc\interrupt.h
+[Bookmarks15]
+TimeStamp=1219275109
+Row=0
+Column=0
+ScrollPosX=0
+ScrollPosY=0
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[Bookmarks16]
+TimeStamp=1219274948
+Row=6
+Column=13
+ScrollPosX=0
+ScrollPosY=0
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[FoldedCode4]
+Blocks=0
+[Bookmarks17]
+TimeStamp=1219272540
+Row=0
+Column=0
+ScrollPosX=0
+ScrollPosY=0
+BK0=-1
+BK1=-1
+BK2=-1
+BK3=-1
+BK4=-1
+BK5=-1
+BK6=-1
+BK7=-1
+BK8=-1
+BK9=-1
+[FoldedCode17]
+Blocks=0
+[FoldedCode14]
+Blocks=0
+[FoldedCode9]
+Blocks=0
+[FoldedCode10]
+Blocks=0
+[FoldedCode13]
+Blocks=0
+[FoldedCode16]
+Blocks=0
+[FoldedCode15]
+Blocks=0
+[FoldedCode11]
+Blocks=0
+[FoldedCode12]
+Blocks=0

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm Thu Jun 23 15:46:18 2016
+AVRASM ver. 2.1.30  D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm Fri Jun 24 00:40:57 2016
 
 D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm(1095): warning: Register r5 already defined by the .DEF directive
 D:\Projects\avr projects\AvrEmbeddedC\List\avrembededc.asm(1096): warning: Register r4 already defined by the .DEF directive
