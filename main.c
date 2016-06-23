@@ -92,33 +92,45 @@ void return_data_to_master(unsigned char d1, unsigned char d2, unsigned char d3,
     delay_ms(100);
     uart_char_tx(d1); //printf("%d",d1);
     delay_ms(100);
-    uart_char_tx(d2);//printf("%d",d2);
+    uart_char_tx(d2); //printf("%d",d2);
     delay_ms(100);
-    uart_char_tx(d3);//printf("%d",d3);
+    uart_char_tx(d3); //printf("%d",d3);
     delay_ms(100);
-    uart_char_tx(d4);//printf("%d",d4);
+    uart_char_tx(d4); //printf("%d",d4);
     delay_ms(100);
-    uart_char_tx(d5);//printf("%d",d5);
+    uart_char_tx(d5); //printf("%d",d5);
     delay_ms(100);
     uart_char_tx('#');
     delay_ms(100);
     disable_slave();
 }
 
-void return_data_to_computer(unsigned char d1, unsigned char d2, unsigned char d3, unsigned char d4, unsigned char d5){
-    hienthi(111);delay_ms(3000);
-    uart_char_tx('&'); 
+void return_data_to_computer(unsigned char d1, unsigned char d2, unsigned char d3, unsigned char d4, unsigned char d5) {
+    hienthi(111);
+    delay_ms(3000);
+    uart_char_tx('&');
+    //delay_ms(100);
+    // cong them 1 de tranh null, khi computer nhan duoc thi tru di 1
+    uart_char_tx(d1 + 1);
+    hienthi(d1);
+    delay_ms(2000);
+    //delay_ms(100);
+    uart_char_tx(d2 + 1);
+    hienthi(d2);
+    delay_ms(2000);
     delay_ms(100);
-    uart_char_tx(d1);hienthi(d1);delay_ms(2000);
+    uart_char_tx(d3 + 1);
+    hienthi(d3);
+    delay_ms(2000);
     delay_ms(100);
-    uart_char_tx(d2);hienthi(d2);delay_ms(2000);
-    delay_ms(100);
-    uart_char_tx(d3);hienthi(d3);delay_ms(2000);
-    delay_ms(100);
-    uart_char_tx(d4);hienthi(d4);delay_ms(2000);
-    delay_ms(100);
-    uart_char_tx(d5);hienthi(d5);delay_ms(2000);
-    delay_ms(100);
+    uart_char_tx(d4 + 1);
+    hienthi(d4);
+    delay_ms(2000);
+    //delay_ms(100);
+    uart_char_tx(d5 + 1);
+    hienthi(d5);
+    delay_ms(2000);
+    //delay_ms(100);
     uart_char_tx('#');
     delay_ms(100);
 
@@ -128,11 +140,21 @@ void execute_query() {
     Time t;
 
     if (IS_MASTER) {
-        hienthi(package_size); delay_ms(4000);
+        hienthi(package_size);
+        delay_ms(4000);
         // thuc hien cau truy van nhan duoc tren master
         if (package_size == 4) { // co the nhan biet bang byte dau tien khac 0
             // gui dia chi cho slave, sau do cho xac nhan tu slave
+            //hienthi(99);delay_ms(5000);
             uart_address_tx(received_package[1]);
+//            printf("heheh");
+//            temp = ds18b20_gettemp();
+//            if(temp == (int)temp){
+//            printf("bangnha");;
+//            }
+//            //printf ("%d",temp);
+//            return_data_to_computer(0, 0, 0, (unsigned char) ((int) temp), (unsigned char) ((int) (10 * (temp - (int) temp))));
+
             //            if (received_package[2] == 't') {
             //                //printf ("%c",a);
             //                temp = ds18b20_gettemp();
@@ -147,21 +169,22 @@ void execute_query() {
             //            }
 
         }
-        if(package_size == 7) { // co the nhan biet goi tin data bang byte dau tien luon =0
+        if (package_size == 7) { // co the nhan biet goi tin data bang byte dau tien luon =0
             // day la goi tin data
             // nhan biet nhiet do hay thoi gian dua vao byte so 3 = 0 hay khac 0
-            hienthi(55);delay_ms(4000);
-            if(received_package[2] ==0){
+            hienthi(55);
+            delay_ms(4000);
+            if (received_package[2] == 0) {
                 // day la goi nhiet do
-                temp = received_package[4]+received_package[5]/10;
-                return_data_to_computer(0, 0, 0,received_package[4],received_package[5]);
+                temp = received_package[4] + received_package[5] / 10;
+                return_data_to_computer(0, 0, 0, received_package[4], received_package[5]);
             }
-            if(received_package[2] == 1){
+            if (received_package[2] == 1) {
                 // day la goi thoi gian
                 t.Hour = received_package[3];
                 t.Minute = received_package[4];
                 t.Second = received_package[5];
-                return_data_to_computer(0,1,received_package[3],received_package[4],received_package[5]);
+                return_data_to_computer(0, 1, received_package[3], received_package[4], received_package[5]);
             }
         }
     } else {
@@ -172,7 +195,7 @@ void execute_query() {
                 temp = ds18b20_gettemp();
                 //printf("%d", (int)temp);
                 //printf ("%d",temp);
-                return_data_to_master(0, 0, 0,(unsigned char) ((int) temp), (unsigned char)((int) (10 * (temp - (int) temp))));
+                return_data_to_master(0, 0, 0, (unsigned char) ((int) temp), (unsigned char) ((int) (10 * (temp - (int) temp))));
 
             }
             if (received_package[2] == 'h') {
@@ -187,7 +210,7 @@ void execute_query() {
 }
 
 void send_query_to_slave() {
-//    hienthi(11);delay_ms(4000);
+    //    hienthi(11);delay_ms(4000);
     uart_char_tx(received_package[0]);
     delay_ms(100); // cho cho master nhan va xu ly
     uart_char_tx(received_package[1]);
@@ -213,7 +236,8 @@ void process_received_data() {
             }
             if (received_byte == '$') {
                 // slave da xac nhan, xu ly tiep, gui cau truy van toi slave
-                hienthi(11);delay_ms(4000);
+                hienthi(11);
+                delay_ms(4000);
                 send_query_to_slave();
             }
         } else {
@@ -269,12 +293,12 @@ interrupt [USART_RXC] void usart_rx_isr(void) {
         // xu ly ngat nhan du lieu tren master
         received_byte = UDR;
         process_received_data();
-    } 
+    }
     else {
         //xu ly ngat nhan du lieu tren slave
         //printf("slave nhan dia chi");
-//        hienthi(received_byte);
-//        delay_ms(6000);
+        //        hienthi(received_byte);
+        //        delay_ms(6000);
         received_byte = UDR;
         if (slave_enable) {
             //printf("xy ly nghat");
@@ -399,9 +423,9 @@ void main(void) {
     UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE) | (1 << UCSZ2);
     UBRRH = 0x00;
     UBRRL = 0x19;
-    if(!IS_MASTER) disable_slave();
+    if (!IS_MASTER) disable_slave();
 
-    
+
     // Analog Comparator initialization
     // Analog Comparator: Off
     // Analog Comparator Input Capture by Timer/Counter 1: Off
@@ -464,30 +488,31 @@ void main(void) {
         // lay thoi gian
         //        mySetTimeForDS1307ver2(&time);
         //        time = myGetTimeFromDS1307();
-//        time = myGetTimeFromDS1307ver2();
-//        hienthithoigian(time.Hour + time.Mode * time.AP * 12, time.Minute); // hien thi theo 24h
+        //        time = myGetTimeFromDS1307ver2();
+        //        hienthithoigian(time.Hour + time.Mode * time.AP * 12, time.Minute); // hien thi theo 24h
         hienthi(10);
         delay_ms(2000);
-        
-//        uart_char_tx('@');
-//        delay_ms(100);
-//        uart_char_tx('2');
-//        delay_ms(100);
-//        uart_char_tx('t');
-//        delay_ms(100);
-//        uart_char_tx('#');
-//        delay_ms(100);
+
+        //        uart_char_tx('@');
+        //        delay_ms(100);
+        //        uart_char_tx('2');
+        //        delay_ms(100);
+        //        uart_char_tx('t');
+        //        delay_ms(100);
+        //        uart_char_tx('#');
+        //        delay_ms(100);
 
         // kytu = mygetchar();
         // if(kytu !=0) putchar(kytu);
         // printf("%c", my_variable);
         //printf("Nhiet do hien tai la"); 
-        //kytu = uart_getchar(); 
-        received_package[0] = '@';
-        received_package[1]='2';
-        received_package[2]='t';
-        received_package[3]='#';
-        uart_address_tx(received_package[1]);
+        //kytu = uart_getchar();
+
+        //        received_package[0] = '@';
+        //        received_package[1]='2';
+        //        received_package[2]='t';
+        //        received_package[3]='#';
+        //        uart_address_tx(received_package[1]);
 
 
 
@@ -532,9 +557,9 @@ void hienthi(int x) {
     quet(ma[c]);
     quet(ma[b]);
     quet(ma[a]);
-    
-    
-    
+
+
+
 
     day();
 }
@@ -575,7 +600,6 @@ void uart_address_tx(unsigned char chr) {
     UCSRB |= (1 << TXB8);
     UDR = chr;
 }
-
 
 unsigned char uart_getchar() {
     unsigned char a = '';

@@ -1,0 +1,18 @@
+D:\C#\Mach\Mach\bin\Debug\Mach.exe.config
+D:\C#\Mach\Mach\bin\Debug\Mach.exe
+D:\C#\Mach\Mach\bin\Debug\Mach.pdb
+D:\C#\Mach\Mach\obj\Debug\Mach.csprojResolveAssemblyReference.cache
+D:\C#\Mach\Mach\obj\Debug\Mach.Form1.resources
+D:\C#\Mach\Mach\obj\Debug\Mach.Properties.Resources.resources
+D:\C#\Mach\Mach\obj\Debug\Mach.csproj.GenerateResource.Cache
+D:\C#\Mach\Mach\obj\Debug\Mach.exe
+D:\C#\Mach\Mach\obj\Debug\Mach.pdb
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\bin\Debug\Mach.exe.config
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.exe
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.pdb
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\bin\Debug\Mach.exe
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\bin\Debug\Mach.pdb
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.csprojResolveAssemblyReference.cache
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.Form1.resources
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.Properties.Resources.resources
+D:\Projects\avr projects\AvrEmbeddedC\terminalComputer\Mach\obj\Debug\Mach.csproj.GenerateResource.Cache

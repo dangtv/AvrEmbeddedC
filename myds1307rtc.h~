@@ -1,0 +1,55 @@
+#include <io.h>
+#include <stdio.h>
+#include <delay.h>
+
+#ifndef cbi
+#define cbi(port, bit)     (port) &= ~(1 << (bit))
+#endif
+#ifndef sbi
+#define sbi(port, bit)     (port) |=  (1 << (bit))
+#endif
+
+//dinh nghia cac duong giao tiep SPI tren AVR, phu thuoc cau truc chan cua tung chip
+#define TWI_PORT PORTC
+#define TWI_DDR  DDRC
+#define TWI_PIN  PINC
+
+#define SDA_PIN  6
+#define SCL_PIN  5
+//------------------------------
+
+#define DS1307_SLA 0X68 //dia chi I2C SLA mac dinh cua DS1307: 0x68=1101000
+
+////--dinh nghia gia tri cho thanh toc do TWBR ung voi tan so xung giu nhip 8MHz
+//#define _222K 10
+//#define _100K 32
+
+//--dinh nghia gia tri cho thanh toc do TWBR ung voi tan so xung giu nhip 4MHz
+//#define _222K 10
+#define _100K 12
+
+//--command for TWCR--------------
+#define TWI_W 0 // bit Write
+#define TWI_R 1 // bit Read
+
+#define TWI_START (1<<TWINT)|(1<<TWSTA)|(1<<TWEN) //0xA4: goi Start condidition
+#define TWI_STOP (1<<TWINT)|(1<<TWSTO)|(1<<TWEN) //0x94: goi STOP condition
+#define TWI_Clear_TWINT (1<<TWINT)|(1<<TWEN)      //0x84 : xoa TWIN de bat dau doc, doc xong thi NOT ACK
+#define TWI_Read_ACK (1<<TWINT)|(1<<TWEN)|(1<<TWEA) //0xC4 : xoa TWIN de bat dau doc, sau khi doc set ACK
+struct Time {
+    //Mode: chon che do 12h hoac 24h, Mode nam o bit 6 cua thanh ghi HOURS, 
+    //Mode=1: 12H, Mode=0: 24H
+    //AP: bien chi AM hoac PM trong Mode 12h, AP nam o bit 5 cua thang ghi HOURS, 
+    //AP=1:PM, AP=0: AM
+    unsigned char Second, Minute, Hour, Day, Date, Month, Year, Mode, AP; // mode(che do hien thi) =0 -> 24h; 1->12h
+};
+typedef struct Time Time;
+
+void TWI_Init(void);
+unsigned char TWI_DS1307_wadr(unsigned char Addr);
+unsigned char TWI_DS1307_wblock(unsigned char Addr, unsigned char Data[], unsigned char len);
+unsigned char TWI_DS1307_rblock(unsigned char Data[], unsigned char len);
+
+
+Time myGetTimeFromDS1307();
+void mySetTimeForDS1307(Time * _t);
