@@ -77,6 +77,11 @@ namespace Mach
                 {
                     receivedData += s;
                     isReceivedData = false;
+                    if (s[s.Length - 1] == '#')
+                    {
+                        // nhan xong goi tin, boc goi tin de lay du lieu
+                        processPackage();
+                    }
                 }
                 else { stringReceived += s + "" + "(" + s.Length + ")"; }
             }
@@ -86,22 +91,7 @@ namespace Mach
                 if(s[s.Length-1] == '#')
                 {
                     // nhan xong goi tin, boc goi tin de lay du lieu
-                    isReceivedData = true;
-                    if (receivedData.Length == 7)
-                    {
-                        if ((receivedData[2] - 1) == 0)
-                        {
-                            temp = (receivedData[4] - 1) + (receivedData[5] - 1) / 10.0;
-                            stringReceived += "__ nhiet do: " + temp.ToString() + "__";
-                        }
-                        if ((receivedData[2] - 1) == 1)
-                        {
-                            int Hour = receivedData[3] - 1;
-                            int Minute = receivedData[4] - 1;
-                            int Second = receivedData[5] - 1;
-                            stringReceived += "__ thoi gian: " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString() + "__";
-                        }
-                    }
+                    processPackage();
                 }
 
             }
@@ -109,7 +99,27 @@ namespace Mach
             
             Display(stringReceived);
         }
-
+        private void processPackage()
+        {
+            isReceivedData = true;
+            if (receivedData.Length == 7)
+            {
+                if ((receivedData[2] - 1) == 0)
+                {
+                    temp = (receivedData[4] - 1) + (receivedData[5] - 1) / 10.0;
+                    stringReceived += "__ nhiet do: " + temp.ToString() + "__";
+                }
+                if ((receivedData[2] - 1) == 1)
+                {
+                    int Hour = receivedData[3] - 1;
+                    int Minute = receivedData[4] - 1;
+                    int Second = receivedData[5] - 1;
+                    stringReceived += "__ thoi gian: " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString() + "__";
+                }
+            }
+            // reset package
+            receivedData = "";
+        }
         private delegate void DlDisplay(string s);
         private void Display(string s)
         {

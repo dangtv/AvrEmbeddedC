@@ -2,7 +2,7 @@
 This program was produced by the
 CodeWizardAVR V2.05.6 Evaluation
 Automatic Program Generator
-ï¿½ Copyright 1998-2012 Pavel Haiduc, HP InfoTech s.r.l.
+Ã¯Â¿Â½ Copyright 1998-2012 Pavel Haiduc, HP InfoTech s.r.l.
 http://www.hpinfotech.com
 
 
@@ -107,29 +107,29 @@ void return_data_to_master(unsigned char d1, unsigned char d2, unsigned char d3,
 
 void return_data_to_computer(unsigned char d1, unsigned char d2, unsigned char d3, unsigned char d4, unsigned char d5) {
     hienthi(111);
-    delay_ms(3000);
+    delay_ms(2000);
     uart_char_tx('&');
     //delay_ms(100);
     // cong them 1 de tranh null, khi computer nhan duoc thi tru di 1
     uart_char_tx(d1 + 1);
-    hienthi(d1);
-    delay_ms(2000);
+//    hienthi(d1);
+//    delay_ms(2000);
     //delay_ms(100);
     uart_char_tx(d2 + 1);
-    hienthi(d2);
-    delay_ms(2000);
-    delay_ms(100);
+//    hienthi(d2);
+//    delay_ms(2000);
+//    delay_ms(100);
     uart_char_tx(d3 + 1);
-    hienthi(d3);
-    delay_ms(2000);
-    delay_ms(100);
+//    hienthi(d3);
+//    delay_ms(2000);
+//    delay_ms(100);
     uart_char_tx(d4 + 1);
-    hienthi(d4);
-    delay_ms(2000);
+//    hienthi(d4);
+//    delay_ms(2000);
     //delay_ms(100);
     uart_char_tx(d5 + 1);
-    hienthi(d5);
-    delay_ms(2000);
+//    hienthi(d5);
+//    delay_ms(2000);
     //delay_ms(100);
     uart_char_tx('#');
     delay_ms(100);
@@ -141,7 +141,7 @@ void execute_query() {
 
     if (IS_MASTER) {
         hienthi(package_size);
-        delay_ms(4000);
+        delay_ms(2000);
         // thuc hien cau truy van nhan duoc tren master
         if (package_size == 4) { // co the nhan biet bang byte dau tien khac 0
             // gui dia chi cho slave, sau do cho xac nhan tu slave
@@ -149,10 +149,7 @@ void execute_query() {
             uart_address_tx(received_package[1]);
 //            printf("heheh");
 //            temp = ds18b20_gettemp();
-//            if(temp == (int)temp){
-//            printf("bangnha");;
-//            }
-//            //printf ("%d",temp);
+//            printf ("%d",(int)temp);
 //            return_data_to_computer(0, 0, 0, (unsigned char) ((int) temp), (unsigned char) ((int) (10 * (temp - (int) temp))));
 
             //            if (received_package[2] == 't') {
