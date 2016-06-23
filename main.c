@@ -2,7 +2,7 @@
 This program was produced by the
 CodeWizardAVR V2.05.6 Evaluation
 Automatic Program Generator
-� Copyright 1998-2012 Pavel Haiduc, HP InfoTech s.r.l.
+ï¿½ Copyright 1998-2012 Pavel Haiduc, HP InfoTech s.r.l.
 http://www.hpinfotech.com
 
 
@@ -35,7 +35,7 @@ Data Stack size         : 256
 #include <interrupt.h>
 
 #define IS_MASTER 1
-#define MY_ADDRESS 2
+#define MY_ADDRESS '2'
 #define FRAMING_ERROR (1<<FE)
 #define PARITY_ERROR (1<<UPE)
 #define DATA_OVERRUN (1<<DOR)
@@ -64,6 +64,7 @@ void hienthinhietdo(unsigned char temp);
 void hienthithoigian(unsigned char hour, unsigned char minute);
 
 void uart_char_tx(unsigned char chr);
+void uart_address_tx(unsigned char chr);
 unsigned char uart_getchar();
 void getState(unsigned char);
 void process_received_data();
@@ -82,24 +83,102 @@ byte ttemp1;
 
 void execute_query();
 void send_confirm_to_master();
+void disable_slave();
+void ensable_slave();
 // thuc thi cau lenh doc tu goi tin (package))
+
+void return_data_to_master(unsigned char d1, unsigned char d2, unsigned char d3, unsigned char d4, unsigned char d5) {
+    uart_char_tx('@');
+    delay_ms(100);
+    uart_char_tx(d1); //printf("%d",d1);
+    delay_ms(100);
+    uart_char_tx(d2);//printf("%d",d2);
+    delay_ms(100);
+    uart_char_tx(d3);//printf("%d",d3);
+    delay_ms(100);
+    uart_char_tx(d4);//printf("%d",d4);
+    delay_ms(100);
+    uart_char_tx(d5);//printf("%d",d5);
+    delay_ms(100);
+    uart_char_tx('#');
+    delay_ms(100);
+    disable_slave();
+}
+
+void return_data_to_computer(unsigned char d1, unsigned char d2, unsigned char d3, unsigned char d4, unsigned char d5){
+    hienthi(111);delay_ms(3000);
+    uart_char_tx('&'); 
+    delay_ms(100);
+    uart_char_tx(d1);hienthi(d1);delay_ms(2000);
+    delay_ms(100);
+    uart_char_tx(d2);hienthi(d2);delay_ms(2000);
+    delay_ms(100);
+    uart_char_tx(d3);hienthi(d3);delay_ms(2000);
+    delay_ms(100);
+    uart_char_tx(d4);hienthi(d4);delay_ms(2000);
+    delay_ms(100);
+    uart_char_tx(d5);hienthi(d5);delay_ms(2000);
+    delay_ms(100);
+    uart_char_tx('#');
+    delay_ms(100);
+
+}
 
 void execute_query() {
     Time t;
 
     if (IS_MASTER) {
+        hienthi(package_size); delay_ms(4000);
+        // thuc hien cau truy van nhan duoc tren master
+        if (package_size == 4) { // co the nhan biet bang byte dau tien khac 0
+            // gui dia chi cho slave, sau do cho xac nhan tu slave
+            uart_address_tx(received_package[1]);
+            //            if (received_package[2] == 't') {
+            //                //printf ("%c",a);
+            //                temp = ds18b20_gettemp();
+            //                uart_char_tx('T');
+            //                printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
+            //
+            //            }
+            //            if (received_package[2] == 'h') {
+            //                t = myGetTimeFromDS1307ver2();
+            //                printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (t.Hour + t.Mode * t.AP * 12), (unsigned char) t.Minute, (unsigned char) t.Second);
+            //
+            //            }
+
+        }
+        if(package_size == 7) { // co the nhan biet goi tin data bang byte dau tien luon =0
+            // day la goi tin data
+            // nhan biet nhiet do hay thoi gian dua vao byte so 3 = 0 hay khac 0
+            hienthi(55);delay_ms(4000);
+            if(received_package[2] ==0){
+                // day la goi nhiet do
+                temp = received_package[4]+received_package[5]/10;
+                return_data_to_computer(0, 0, 0,received_package[4],received_package[5]);
+            }
+            if(received_package[2] == 1){
+                // day la goi thoi gian
+                t.Hour = received_package[3];
+                t.Minute = received_package[4];
+                t.Second = received_package[5];
+                return_data_to_computer(0,1,received_package[3],received_package[4],received_package[5]);
+            }
+        }
+    } else {
+        // thuc hien cau truy van nhan duoc tren slave
         if (package_size == 4) {
             if (received_package[2] == 't') {
                 //printf ("%c",a);
                 temp = ds18b20_gettemp();
-                uart_char_tx('T');
-                printf(" Nhiet do hien tai la %d oC\n\r", (unsigned char) temp);
+                //printf("%d", (int)temp);
+                //printf ("%d",temp);
+                return_data_to_master(0, 0, 0,(unsigned char) ((int) temp), (unsigned char)((int) (10 * (temp - (int) temp))));
 
             }
             if (received_package[2] == 'h') {
                 t = myGetTimeFromDS1307ver2();
-                printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (t.Hour + t.Mode * t.AP * 12), (unsigned char) t.Minute, (unsigned char) t.Second);
-
+                //printf(" Gio hien tai la %d:%d:%d\n\r", (unsigned char) (t.Hour + t.Mode * t.AP * 12), (unsigned char) t.Minute, (unsigned char) t.Second);
+                return_data_to_master(0, 1, (t.Hour + t.Mode * t.AP * 12), t.Minute, t.Second);
             }
 
         }
@@ -107,11 +186,49 @@ void execute_query() {
     package_size = 0;
 }
 
+void send_query_to_slave() {
+//    hienthi(11);delay_ms(4000);
+    uart_char_tx(received_package[0]);
+    delay_ms(100); // cho cho master nhan va xu ly
+    uart_char_tx(received_package[1]);
+    delay_ms(100);
+    uart_char_tx(received_package[2]);
+    delay_ms(100);
+    uart_char_tx(received_package[3]);
+    delay_ms(100);
+}
+
 // doc tung byte va luu vao goi tin theo dinh dang
 
 void process_received_data() {
     if (IS_MASTER) {
         // xu ly du lieu nhan duoc tren master
+        if (isComplete) {
+            if (received_byte == '@') {
+                //hienthi(33);delay_ms(4000);
+                //printf("bat dau goi tin; ");
+                isComplete = 0;
+                received_package[package_size] = received_byte;
+                package_size++;
+            }
+            if (received_byte == '$') {
+                // slave da xac nhan, xu ly tiep, gui cau truy van toi slave
+                hienthi(11);delay_ms(4000);
+                send_query_to_slave();
+            }
+        } else {
+            received_package[package_size] = received_byte;
+            package_size++;
+            //hienthi(package_size);delay_ms(4000);
+            if ((received_byte == '#') || (package_size > 9)) {
+                //printf("ket thuc goi tin; ");
+                //hienthi(44);delay_ms(4000);
+                isComplete = 1;
+                execute_query();
+            }
+        }
+    } else {
+        // xu ly du lieu nhan duoc tren slave
         if (isComplete) {
             if (received_byte == '@') {
                 //printf("bat dau goi tin; ");
@@ -128,8 +245,6 @@ void process_received_data() {
                 execute_query();
             }
         }
-    } else {
-        // xu ly du lieu nhan duoc tren slave
     }
 }
 
@@ -137,28 +252,35 @@ void send_confirm_to_master() {
     uart_char_tx('$');
 }
 
-void enable_slave(){
+void enable_slave() {
     slave_enable = 1;
-    UCSRA &=~(1<<MPCM);
+    UCSRA &= ~(1 << MPCM);
 }
 
-void disable_slave(){
+void disable_slave() {
     slave_enable = 0;
-    UCSRA |=(1<<MPCM);
+    UCSRA |= (1 << MPCM);
 }
 
 // xu ly ngat nhan du lieu
+
 interrupt [USART_RXC] void usart_rx_isr(void) {
     if (IS_MASTER) {
         // xu ly ngat nhan du lieu tren master
         received_byte = UDR;
         process_received_data();
-    } else {
+    } 
+    else {
         //xu ly ngat nhan du lieu tren slave
+        //printf("slave nhan dia chi");
+//        hienthi(received_byte);
+//        delay_ms(6000);
+        received_byte = UDR;
         if (slave_enable) {
+            //printf("xy ly nghat");
             process_received_data();
-        }
-        else{
+        } else {
+            //printf("slave nhan dia chi");
             if (MY_ADDRESS == received_byte) {
                 enable_slave();
                 send_confirm_to_master();
@@ -277,7 +399,9 @@ void main(void) {
     UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE) | (1 << UCSZ2);
     UBRRH = 0x00;
     UBRRL = 0x19;
+    if(!IS_MASTER) disable_slave();
 
+    
     // Analog Comparator initialization
     // Analog Comparator: Off
     // Analog Comparator Input Capture by Timer/Counter 1: Off
@@ -340,17 +464,30 @@ void main(void) {
         // lay thoi gian
         //        mySetTimeForDS1307ver2(&time);
         //        time = myGetTimeFromDS1307();
-        time = myGetTimeFromDS1307ver2();
-        hienthithoigian(time.Hour + time.Mode * time.AP * 12, time.Minute); // hien thi theo 24h
+//        time = myGetTimeFromDS1307ver2();
+//        hienthithoigian(time.Hour + time.Mode * time.AP * 12, time.Minute); // hien thi theo 24h
+        hienthi(10);
         delay_ms(2000);
-
+        
+//        uart_char_tx('@');
+//        delay_ms(100);
+//        uart_char_tx('2');
+//        delay_ms(100);
+//        uart_char_tx('t');
+//        delay_ms(100);
+//        uart_char_tx('#');
+//        delay_ms(100);
 
         // kytu = mygetchar();
         // if(kytu !=0) putchar(kytu);
         // printf("%c", my_variable);
         //printf("Nhiet do hien tai la"); 
-        //kytu = uart_getchar();  
-
+        //kytu = uart_getchar(); 
+        received_package[0] = '@';
+        received_package[1]='2';
+        received_package[2]='t';
+        received_package[3]='#';
+        uart_address_tx(received_package[1]);
 
 
 
@@ -391,10 +528,13 @@ void hienthi(int x) {
     c = (x % 100) / 10;
     d = (x % 10);
 
-    quet(ma[a]);
-    quet(ma[b]);
-    quet(ma[c]);
     quet(ma[d]);
+    quet(ma[c]);
+    quet(ma[b]);
+    quet(ma[a]);
+    
+    
+    
 
     day();
 }
@@ -424,8 +564,18 @@ void day() {
 
 void uart_char_tx(unsigned char chr) {
     while (!(UCSRA & (1 << UDRE))); //cho den khi bit UDRE=1 moi thoat khoi while
+    UCSRB &= ~(1 << TXB8); //reset the 9th bit
     UDR = chr;
 }
+
+//chuong trinh con phat dia chi
+
+void uart_address_tx(unsigned char chr) {
+    while (!(UCSRA & (1 << UDRE))); //cho den khi bit UDRE=1 moi thoat khoi while
+    UCSRB |= (1 << TXB8);
+    UDR = chr;
+}
+
 
 unsigned char uart_getchar() {
     unsigned char a = '';
